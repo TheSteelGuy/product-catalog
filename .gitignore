@@ -1,0 +1,13 @@
+#directories/files not included in the repository
+#temporary python files
+*.pyc
+
+#directories
+instance/
+migrations/
+
+#irrelevant files
+endpoint.py
+
+#any file ending with ~
+*~
