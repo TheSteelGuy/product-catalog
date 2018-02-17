@@ -26,7 +26,7 @@ This application allows users to:
 
 - The run the following to start the app:
 -  `export FLASK_APP=run.py`
--  `export FLASK_DEBUG=true`
+-  `export FLASK_CONFIG=development`
 -  `flask run`
 - Navigate to `http://127.0.0.1:5000/` to view the application
 # How to add a item
