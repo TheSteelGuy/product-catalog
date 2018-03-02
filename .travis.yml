@@ -1,26 +1,20 @@
 sudo: true
 language: python
 python:
-  - 2.7
-
-
+  - "2.7"
 install:
-
-  - pip install python-coveralls
-  - pip install coveralls
-  - pip install coverage
-  - pip install nose
-
-
-  - pip install -r requirements.txt
-
+  - "pip install -r requirements.txt"
+  - "pip install coveralls"
+services:
+  - postgresql
+env:
+  global:
+    - export SECRET="TesT_catalog"
+    - export APP_SETTINGS="development"
+    - export DATABASE_URL="postgresql://postgres:postgres@localhost/test_db"
 before_script:
-  - mysql -e "CREATE DATABASE catalog_tests_db;" 
-  - mysql -e "CREATE USER 'cata'@'localhost' IDENTIFIED BY 'cata1';"
-  - mysql -e "GRANT ALL PRIVILEGES ON catalog_tests_db.* TO 'cata'@'localhost;"
-
-
-script: nosetests --with-coverage
-
+  - psql -c "CREATE DATABASE test_db;" -U postgres
 after_success:
-- coveralls
+  coveralls
+script:
+- nosetests  --with-coverage --cover-package=myapp
