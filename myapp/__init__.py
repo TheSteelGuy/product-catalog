@@ -15,7 +15,6 @@ db = SQLAlchemy()
 def create_app(config_name):
     app = Flask(__name__,instance_path=os.path.join(os.path.abspath(os.curdir),'instance'), instance_relative_config=True)
     app.config.from_object(app_config[config_name])
-    app.config.from_pyfile('myconfig.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     
