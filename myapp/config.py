@@ -1,10 +1,13 @@
 #myapp/config.py
+import os
 
 class Baseconfig():
 
      ''' common as the class is inherited'''
+     DEBUG = False
+     SECRET = os.getenv("SECRET")
+     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
-     DEBUG = True
  
 class Development_config(Baseconfig):
 
