@@ -9,12 +9,11 @@ services:
   - postgresql
 env:
   global:
-    - export SECRET="TesT_catalog"
     - export APP_SETTINGS="development"
-    - export DATABASE_URL="postgresql://postgres:postgres@localhost/test_db"
+  - export DATABASE_URI="postgresql://postgres:postgres@localhost/test_db"
 before_script:
   - psql -c "CREATE DATABASE test_db;" -U postgres
 after_success:
   coveralls
 script:
-- nosetests  --with-coverage --cover-package=myapp
+- nosetests  --with-coverage --cover-package=app
