@@ -14,10 +14,10 @@ from myapp.models import Product, Category
 class TestBase(TestCase):
 
   def create_app(self):
-    """pass test configarations to the app"""
+    
     config_name = 'testing'
     app = create_app(config_name)
-    app.config.update(SQLALCHEMY_DATABASE_URI= 'mysql://cata:cata1@localhost/catalog_tests_db'
+    app.config.update(SQLALCHEMY_DATABASE_URI= 'postgresql://cata:cata1@localhost/test_catalog'
     )
     return app
 
@@ -30,9 +30,9 @@ class TestBase(TestCase):
 
   def tearDown(self):
     """gets run after every test"""
-    #db.session.remove()
-    #db.drop_all()
-    pass
+    db.session.remove()
+    db.drop_all()
+    
     
 
 class TestModels(TestBase):
