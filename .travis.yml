@@ -10,6 +10,7 @@ services:
 env:
   global:
     - export APP_SETTINGS="development"
+    - export DATABASE_URL="postgresql://cata:cata1@localhost/test_catalog"
   
 before_script:
   - psql -c "CREATE DATABASE test_catalog;" -U postgres
