@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # product catalog app
 
 ## Tech/Framework used
@@ -36,4 +37,8 @@ This application allows users to:
 - then do requests.post(URL,data)
 - press enter keys
 
+
+=======
+# product-catalog
+flask app that maintains products added by a user in a given category for access
 
