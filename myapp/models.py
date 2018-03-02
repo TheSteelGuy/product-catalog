@@ -32,5 +32,5 @@ class Category(db.Model):
         self.name = name
 
     def __repr__(self):
-        return "<Category>".format(self.id)
+        return "<Category{}>".format(self.id)
    
