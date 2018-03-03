@@ -1,5 +1,6 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/TheSteelGuy/product-catalog/badge.svg?branch=master)](https://coveralls.io/github/TheSteelGuy/product-catalog?branch=master)
+[![Build Status](https://travis-ci.org/TheSteelGuy/product-catalog.svg?branch=master)](https://travis-ci.org/TheSteelGuy/product-catalog)
 
 # product catalog app
 
