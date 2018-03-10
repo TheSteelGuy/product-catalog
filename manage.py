@@ -7,7 +7,7 @@ from  myapp import db
 config_name=os.getenv('APP_SETTINGS')
 app = create_app('development')
 
-migrate = Migrate(app, db_)
+migrate = Migrate(app, db)
 manager = Manager(app)
 
 manager.add_command('db', MigrateCommand)
