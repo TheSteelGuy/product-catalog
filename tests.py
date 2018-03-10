@@ -6,7 +6,7 @@ import unittest
 from flask_testing import TestCase
 from flask import url_for
 from myapp.models import Product, Category
-
+import json
 
 from myapp import create_app,db
 from myapp.models import Product, Category
@@ -18,6 +18,7 @@ class TestBase(TestCase):
     config_name = 'testing'
     self.app = create_app(config_name)
     self.app.config.update(SQLALCHEMY_DATABASE_URI= "postgresql://postgres:postgres@localhost/test_catalog"
+    #self.app.config.update(SQLALCHEMY_DATABASE_URI= "mysql://root:collo0@localhost/test_catalog"
     )
     return self.app
 
@@ -27,7 +28,8 @@ class TestBase(TestCase):
     self.client = self.app.test_client()
     self.product = {
        'name':'testproduct',
-       'price': '56'
+       'price': 56.0,
+       'category':'ipods'
      } 
     db.create_all()
   
@@ -70,9 +72,53 @@ class Testviews(TestBase):
       response = self.client.get(url_for('catalog.products')) 
       self.assertEqual(response.status_code,200)
 
-    """def test_single_product(self): 
+      """def test_single_product(self): 
        response = self.client.get(url_for('catalog.product'),values=[id]) 
        self.assertEqual(response.status_code,200) """
+
+    def test_product_update(self):
+      """test if update possible"""
+      self.client.post(
+        '/product-create',
+        data=json.dumps(self.product),
+        content_type ='application/json'
+      )
+      new_product = {
+          'name':'new name',
+          'price':45.0,
+          'category':'new category'
+      }
+      update = self.client.put(
+        '/product-update/1',
+        data=json.dumps(new_product),
+        content_type='application/json'
+      )
+      self.assertIn('Product updated',update.data)
+
+    def test_product_create(self):
+      """test if update possible"""
+      result = self.client.post(
+        '/product-create',
+        data=json.dumps(self.product),
+        content_type ='application/json'
+      )
+      self.assertEqual(result.status_code,201)
+    def test_create_category(self):
+      """ tests creation of category"""
+      result = self.client.post(
+        '/create-category',
+        data=json.dumps({'name':'Tablets'}),
+        content_type='application/json'
+      )
+      self.assertIn('Category created',result.data)
+    def test_categories(self):
+      '''tests get requests to categeories'''
+      result = self.client.get(url_for('catalog.get_categories'))
+      self.assertEqual(result.status_code,200)
+
+
+
+
      
 
 if __name__ == ('__main__'):
