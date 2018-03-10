@@ -12,13 +12,17 @@ from ..models import Product,Category
 @catalog.route('/')
 @catalog.route('/home')
 def home():
-    return "Welcome to the Catalog Home."
+    return jsonify("Welcome to the Catalog Home.")
 
 #by default routes use GeT method
 @catalog.route('/product/<int:id>')
-def product(id):
-    product = Product.query.get_or_404(id)
-    return 'Product -{} is $ {}' .format(product.name, product.price)
+def product(id): 
+    try:
+        product = Product.query.filter_by(id=id).first()
+        product = {'Product':product.name,'Price':product.price}
+        return jsonify(product)
+    except AttributeError:
+        return jsonify("Product does not exist.")
 
 
 @catalog.route('/products')
@@ -42,7 +46,7 @@ def create_category():
     db.session.commit()       
     return 'Category created'
 
-@catalog.route('/product-create', methods=['POST',])
+@catalog.route('/product-create', methods=['POST'])
 def create_product():
     name = request.form.get('name')
     price = request.form.get('price')
@@ -52,6 +56,28 @@ def create_product():
     db.session.add(product)
     db.session.commit()
     return 'Product created.'
+
+@catalog.route('/product-update/<int:id>',methods=['GET','PUT'])
+def update_product(id):
+    if request.method == "PUT":
+        product = Product.query.filter_by(id=id).first()
+        product.name = request.form.get('name')
+        product.price = request.form.get('price')
+        category_name = request.form.get('category')
+        product.category = Category.query.filter_by(name=category_name).first()
+        db.session.commit() 
+        
+
+    return jsonify('Method Not Allowed')
+
+@catalog.route('/product/<int:id>/del',methods=['GET','DELETE'])
+def delete_product(id):
+    '''delete product'''
+    if request.method == 'DELETE':
+        db.session.delete(id)
+        db.session.commit()
+    return jsonify('You need to send  delete verb.')
+
   
 @catalog.route('/categories',methods=['GET'])
 def get_categories():
