@@ -16,17 +16,21 @@ class TestBase(TestCase):
   def create_app(self):
     
     config_name = 'testing'
-    app = create_app(config_name)
-    app.config.update(SQLALCHEMY_DATABASE_URI= 'postgresql://cata:cata1@localhost/test_catalog'
+    self.app = create_app(config_name)
+    self.app.config.update(SQLALCHEMY_DATABASE_URI= 'mysql://root:collo0@localhost/test_catalog'
     )
-    return app
+    return self.app
 
   def setUp(self):
     """called before  any test"""
     #create tables
+    self.client = self.app.test_client()
+    self.product = {
+       'name':'testproduct',
+       'price': '56'
+     } 
     db.create_all()
-    #create category for tests
-
+  
 
   def tearDown(self):
     """gets run after every test"""
