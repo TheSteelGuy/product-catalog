@@ -1,5 +1,5 @@
 
 import os
 
-SQLALCHEMY_DATABASE_URI = "mysql://root:root@localhost/flask_catalogue_db"
+SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@localhost/catalog_db"
 SECRET_KEY = os.urandom(24)
