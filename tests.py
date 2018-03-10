@@ -17,7 +17,7 @@ class TestBase(TestCase):
     
     config_name = 'testing'
     self.app = create_app(config_name)
-    self.app.config.update(SQLALCHEMY_DATABASE_URI= 'mysql://root:collo0@localhost/test_catalog'
+    self.app.config.update(SQLALCHEMY_DATABASE_URI= "postgresql://postgres:postgres@localhost/test_catalog"
     )
     return self.app
 
