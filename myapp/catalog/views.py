@@ -2,7 +2,7 @@
 #coding:"utf-8"
 
 #third party imports
-from flask import request, jsonify
+from flask import request, jsonify,make_response
 
 #local imports
 from . import catalog
@@ -12,7 +12,7 @@ from ..models import Product,Category
 @catalog.route('/')
 @catalog.route('/home')
 def home():
-    return jsonify("Welcome to the Catalog Home.")
+    return make_response(jsonify({"message":"Welcome to the Catalog Home."})),200
 
 #by default routes use GeT method
 @catalog.route('/product/<int:id>')
@@ -20,9 +20,9 @@ def product(id):
     try:
         product = Product.query.filter_by(id=id).first()
         product = {'Product':product.name,'Price':product.price}
-        return jsonify(product)
+        return make_response(jsonify(product)),200
     except AttributeError:
-        return jsonify("Product does not exist.")
+        return make_response (jsonify({"message":"Product does not exist."})),405
 
 
 @catalog.route('/products')
@@ -44,7 +44,7 @@ def create_category():
     category = Category(name) 
     db.session.add(category)
     db.session.commit()       
-    return 'Category created'
+    return make_response(jsonify('Category created')),201
 
 @catalog.route('/product-create', methods=['POST'])
 def create_product():
@@ -55,7 +55,7 @@ def create_product():
     product = Product(name, price,category)
     db.session.add(product)
     db.session.commit()
-    return 'Product created.'
+    return make_response(jsonify({'message':'Product created.'})),201
 
 @catalog.route('/product-update/<int:id>',methods=['GET','PUT'])
 def update_product(id):
@@ -66,9 +66,8 @@ def update_product(id):
         category_name = request.form.get('category')
         product.category = Category.query.filter_by(name=category_name).first()
         db.session.commit() 
-        
-
-    return jsonify('Method Not Allowed')
+        return make_response(jsonify({'message':'Product updated'})),201
+    return make_response(jsonify({'message':'Method Not Allowed'})),405
 
 @catalog.route('/product/<int:id>/del',methods=['GET','DELETE'])
 def delete_product(id):
@@ -93,7 +92,7 @@ def get_categories():
              'name': product.name,
             'price': product.price
            }
-    return jsonify(response)
+    return make_response(jsonify(response)),200
     
 
 
